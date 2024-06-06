@@ -51,8 +51,17 @@ local function safe_name(name)
     return safeName
 end
 
+-- DCS will use both capitalized and lower case names for units.
+-- Keep track of used class names and suffix duplicate classes with underscore.
+local used_class_names = {}
 local function safe_class_name(name)
-    return safe_name(name):gsub("^%l", string.upper)
+	local safeName = safe_name(name)
+	local safeClassName = safeName:gsub("^%l", string.upper)
+	if used_class_names[safeClassName] ~= nil and used_class_names[safeClassName] ~= safeName then
+		safeClassName = safeClassName .. '_'
+	end
+	used_class_names[safeClassName] = safeName
+    return safeClassName
 end
 
 local function safe_display_name(name)
@@ -228,6 +237,7 @@ flyable["F-15C"] = true
 flyable["F-15ESE"] = true
 flyable["F-16C_50"] = true
 flyable["FA-18C_hornet"] = true
+flyable["F-4E-45MC"] = true
 flyable["F-5E-3"] = true
 flyable["F-86F Sabre"] = true
 flyable["Hawk"] = true
