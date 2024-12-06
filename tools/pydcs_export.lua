@@ -284,6 +284,7 @@ flyable["Yak-52"] = true
 
 -- Helicopters
 flyable["AH-64D_BLK_II"] = true
+flyable["CH-47Fbl1"] = true
 flyable["Ka-50"] = true
 flyable["Ka-50_3"] = true
 flyable["Mi-8MT"] = true
@@ -936,6 +937,7 @@ writeln(file, 'import dcs.ships as ships')
 local countryPlaneIgnore = {
     "F_14A_95_GR",
     "F_16C_50",
+    "F_16C",
     "F_4E_new",
     "F_5E_MAC",
     "F_86F_MAC",
@@ -948,6 +950,11 @@ local countryPlaneIgnore = {
     "FULCRUM_LAB"
 }
 local countryHeliIgnore = { "Mi_24P", "Ka_50_3" }
+local country_uses_western_callsigns = {}
+for k,v in pairs(db.callnamesRussia) do
+	country_uses_western_callsigns[v] = false
+end
+country_uses_western_callsigns["GDR"] = false
 local i = 0
 while i <= country.maxIndex do
     local c = country.by_idx[i]
@@ -1096,6 +1103,15 @@ while i <= country.maxIndex do
             end
         end
         writeln(file, '    }')
+		local use_western_callsigns = true
+		if country_uses_western_callsigns[c.Name] ~= nil then
+			use_western_callsigns = country_uses_western_callsigns[c.Name]
+		end
+		if use_western_callsigns then
+			writeln(file, '    use_western_callsigns = True')
+		else
+			writeln(file, '    use_western_callsigns = False')
+		end
 
         writeln(file, '')
         writeln(file, '    def __init__(self):')

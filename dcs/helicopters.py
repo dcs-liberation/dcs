@@ -1505,6 +1505,44 @@ class CH_47Fbl1(HelicopterType):
                 15: 42
             },
         },
+        2: {
+            "channels": {
+                1: 305,
+                2: 264,
+                4: 256,
+                8: 257,
+                16: 261,
+                17: 267,
+                9: 255,
+                18: 251,
+                5: 254,
+                10: 262,
+                20: 266,
+                11: 259,
+                3: 265,
+                6: 250,
+                12: 268,
+                13: 269,
+                7: 270,
+                14: 260,
+                19: 253,
+                15: 263
+            },
+        },
+        3: {
+            "channels": {
+                7: 30.035,
+                1: 30,
+                2: 30.01,
+                4: 30.02,
+                8: 30.04,
+                9: 30.045,
+                5: 30.025,
+                10: 30.05,
+                3: 30.015,
+                6: 30.03
+            },
+        },
     }
 
     property_defaults: Dict[str, Any] = {
@@ -1543,11 +1581,17 @@ class CH_47Fbl1(HelicopterType):
 
     class Pylon1:
         M60D = (1, Weapons.M60D)
+        M240H = (1, Weapons.M240H)
 
     class Pylon2:
         M60D_ = (2, Weapons.M60D_)
+        M240H_ = (2, Weapons.M240H_)
 
-    pylons: Set[int] = {1, 2}
+    class Pylon3:
+        M60D__ = (3, Weapons.M60D__)
+        M240H__ = (3, Weapons.M240H__)
+
+    pylons: Set[int] = {1, 2, 3}
 
     tasks = [task.Reconnaissance, task.Escort, task.Transport, task.CAS]
     task_default = task.Transport
@@ -1746,7 +1790,7 @@ class Ka_50_3(HelicopterType):
             id = "Helmet-mounted device"
 
             class Values:
-                AUTO = 0
+                Auto = 0
                 HMS = 1
                 NVG = 2
 
@@ -1789,7 +1833,7 @@ class Ka_50_3(HelicopterType):
             default=0,
             w_ctrl=150,
             values={
-                0: "AUTO",
+                0: "Auto",
                 1: "HMS",
                 2: "NVG",
             },
@@ -2447,6 +2491,7 @@ class OH58D(HelicopterType):
         "NetCrewControlPriority": 0,
         "Remove_doors": True,
         "PDU": False,
+        "AllowHidePDU": True,
         "Rifles": True,
         "MMS_removal": False,
         "Rapid_Deployment_Gear": False,
@@ -2471,6 +2516,9 @@ class OH58D(HelicopterType):
 
         class PDU:
             id = "PDU"
+
+        class AllowHidePDU:
+            id = "AllowHidePDU"
 
         class Rifles:
             id = "Rifles"
@@ -2518,6 +2566,13 @@ class OH58D(HelicopterType):
             label="Install Pilot Display Unit",
             default=False,
             weight_when_on=5,
+        ),
+        "AllowHidePDU": UnitPropertyDescription(
+            identifier="AllowHidePDU",
+            control="checkbox",
+            label="Allow Hiding Pilot Display Unit",
+            player_only=True,
+            default=True,
         ),
         "Rifles": UnitPropertyDescription(
             identifier="Rifles",
